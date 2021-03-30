@@ -4,6 +4,7 @@ from sklearn.decomposition import IncrementalPCA,PCA
 
 blocksize = 10 #把每个CSV分成10份融合成一个CSV
 cols = list(range(1,9504))#不要第一列的MD5
+feature_size = 300
 pdchunk=[]
 data = ["Adware",
            "Backdoor",
@@ -47,7 +48,7 @@ size = [47210,
        ]
 
 d=[]
-sklearn_pca = PCA(n_components=300)
+sklearn_pca = PCA(n_components=feature_size)
 
 for i in range(0,len(data)):#获取每个CSV的分块对象
     chunk_size = int(size[i]/blocksize)
@@ -124,10 +125,10 @@ for i in range(0,blocksize):#一共建立blocksizeCSV
     df = pd.concat(t, ignore_index=True)
     #df.to_csv(str(i)+".csv",index=False,header=False,chunksize=1000)
 
-    df.to_csv(str(i)+"_"+str(200)+".csv.gz"
+    df.to_csv(str(i)+"_"+str(feature_size)+".csv.gz"
          , header=False
          , index=False
          , chunksize=1000
          , compression='gzip'
          , encoding='utf-8')
-    print(str(i)+"_"+str(200)+".csv.gz finished!")
+    print(str(i)+"_"+str(feature_size)+".csv.gz finished!")
